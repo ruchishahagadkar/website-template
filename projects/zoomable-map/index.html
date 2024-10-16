@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Leaflet Functions</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #map{ 
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: -1;
+        }
+        .sidebar{
+            max-width: 30vw;
+        }
+        .sidebar li{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- map holder -->
+    <div id="map"></div>
+
+
+    <!-- list group -->
+    <div class="container-fluid">
+        <div class="d-flex justify-content-end mt-5">
+            <ul class="list-group sidebar">
+                <li id="btn-1" class="list-group-item" data-title="New York City, NY" data-lat="40.712776" data-lng="-74.005974" data-zoom="10"> New York City, NY</li>
+                <li id="btn-2" class="list-group-item" data-title="Boston, MA" data-lat="42.360081" data-lng="-71.058884" data-zoom="10"> Boston, MA</li>
+                <li id="btn-3" class="list-group-item" data-title="Minneapolis, MN" data-lat="44.977753" data-lng="-93.265015" data-zoom="10"> Minneapolis, MN </li>
+                <li id="btn-4" class="list-group-item" data-title="Atlanta, GA" data-lat="33.748997" data-lng="-84.387985" data-zoom="10"> Atlanta, GA</li>
+                <li id="btn-5" class="list-group-item" data-title="Berkeley, CA" data-lat="37.871593" data-lng="-122.272743" data-zoom="10"> Berkeley, CA</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- jquery and leaflet libraries -->
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+
+    <!-- your custom code below-->
+    <script>
+
+    const map = L.map('map', {scrollWheelZoom: false, dragging: false}).setView([38.416, -97.81], 4);
+    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+    tiles.addTo(map); 
+
+    const popup = L.popup();
+
+    $(".list-group-item").on("click", function(){
+
+    const title = $(this).attr("data-title");
+    const lat   = $(this).attr("data-lat");
+    const lng   = $(this).attr("data-lng");
+    const zoom  = $(this).attr("data-zoom");
+
+    map.flyTo([lat, lng], zoom);
+    popup.setLatLng([lat, lng]);
+    popup.setContent(`<h2>${title}</h2>`);
+    popup.openOn(map);
+
+    });
+
+    </script>
+  </body>
+</html>
